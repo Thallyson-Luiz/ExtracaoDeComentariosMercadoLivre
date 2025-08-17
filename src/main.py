@@ -129,7 +129,7 @@ print(f'🟢 Comentarios salvos no arquivo {NAME_PRODUCT}.json')
 
 
 print()
-print('🤖 Robo finalizado com sucesso! 🤖')
+print('🤖 Robo finalizado! 🤖')
 
 
 # fecha o browser
