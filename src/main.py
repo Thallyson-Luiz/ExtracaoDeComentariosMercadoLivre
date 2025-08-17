@@ -4,8 +4,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from .modules.configBrowser import startBrowser
+from .modules.coments import list_to_dict_with_index, remove_comments_without_text, remove_line_break_in_lists
 from dotenv import load_dotenv
 from time import sleep
+import json
 import sys
 import os
 
@@ -63,7 +65,12 @@ print()
 print(f'Iniciando extração de comentários...')
 
 
+
+#_______________________________________________________________________________________________________________________
 # 🔰 Selecionando o iframe de comentarios 🔰
+#_______________________________________________________________________________________________________________________
+
+
 
 try:
     iframe = WAIT.until(EC.presence_of_element_located((By.ID, "ui-pdp-iframe-reviews"))) 
@@ -96,13 +103,37 @@ except:
     sys.exit()
 
 
+
 # ______________________________________________________________________________________________________________________
 # ❗ transformando comentarios em json para consumo ❗
 # ______________________________________________________________________________________________________________________
 
 
-for comentario in coments_list:
-    print(comentario.get_attribute('innerHTML'))
 
-input()
+print()
+print(f'Transformando comentários em json...')
+
+# tratando comentarios
+coments_list = remove_line_break_in_lists(coments_list)
+coments_list = remove_comments_without_text(coments_list)
+
+# transforma os comentários em um dicionário
+coments_list_dict = list_to_dict_with_index(coments_list) 
+
+
+# salva os comentários em um arquivo json
+with open(f'{NAME_PRODUCT}.json', 'w', encoding='utf-8') as file:
+    json.dump(coments_list_dict, file, indent=4, ensure_ascii=False)
+
+print(f'🟢 Comentarios salvos no arquivo {NAME_PRODUCT}.json')
+
+
+print()
+print('🤖 Robo finalizado com sucesso! 🤖')
+
+
+# fecha o browser
+BROWSER.quit()
+
+
 
