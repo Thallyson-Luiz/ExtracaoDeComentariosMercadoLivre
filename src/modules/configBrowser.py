@@ -17,6 +17,6 @@ def startBrowser():
     OPTIONS.add_argument(f"--user-agent={user_agent_linux}")
     OPTIONS.add_argument("--disable-blink-features=AutomationControlled")
 
-    BROWSER = uc.Chrome(options=OPTIONS, headless=False)
+    BROWSER = uc.Chrome(options=OPTIONS, headless=True)
 
     return BROWSER
